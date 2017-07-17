@@ -38,10 +38,9 @@ std::string XORSecretShares::generate_random_secret(void)
     }
 
     std::string randSecret(key_size, '0');
-    const char bin[] = "01";
 
     for (int i = 0; i < key_size; i++) {
-        randSecret[i] = bin[rand() % 2];
+        randSecret[i] = std::to_string(rand() % 2)[0];
     }
 
     std::string res;
@@ -141,29 +140,32 @@ int main(int argc, char *argv[])
     std::cout << "All shadows are XOR-ed" << "\n";
 
     auto key_size = xss.get_key_size();
-    std::string xored_share
+    std::string xored_share = shadows[0];
+
+    for (int i = 1; i < shadows.size(); i++) {
+        switch (key_size) {
             case 64: {
-                std::bitset<64> first_share_64(xored_share);
+                std::bitset<64> xored_share_64(xored_share);
                 std::bitset<64> share_64(shadows[i]);
-                xored_share = (first_share_64^=share_64).to_string();
+                xored_share = (xored_share_64^=share_64).to_string();
             }
                 break;
             case 128: {
-                std::bitset<128> first_share_128(xored_share);
+                std::bitset<128> xored_share_128(xored_share);
                 std::bitset<128> share_128(shadows[i]);
-                xored_share = (first_share_128^=share_128).to_string();
+                xored_share = (xored_share_128^=share_128).to_string();
             }
                 break;
             case 256: {
-                std::bitset<256> first_share_256(xored_share);
+                std::bitset<256> xored_share_256(xored_share);
                 std::bitset<256> _share_256(shadows[i]);
-                xored_share = (first_share_256^=_share_256).to_string();
+                xored_share = (xored_share_256^=_share_256).to_string();
             }
                 break;
             default: {
-                std::bitset<64> first_share_64(xored_share);
+                std::bitset<64> xored_share_64(xored_share);
                 std::bitset<64> _share_64(shadows[i]);
-                xored_share = (first_share_64^=_share_64).to_string();
+                xored_share = (xored_share_64^=_share_64).to_string();
             }
                 break;
         }
