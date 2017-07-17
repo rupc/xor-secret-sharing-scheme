@@ -1,2 +1,4 @@
 # xor-secret-sharing-scheme
-XOR based secret sharing scheme
+
+https://en.wikipedia.org/wiki/Secret_sharing#Trivial_secret_sharing
+
