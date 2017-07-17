@@ -141,32 +141,29 @@ int main(int argc, char *argv[])
     std::cout << "All shadows are XOR-ed" << "\n";
 
     auto key_size = xss.get_key_size();
-    std::string first_share = shadows[0];
-
-    for (int i = 1; i < shadows.size(); i++) {
-        switch (key_size) {
+    std::string xored_share
             case 64: {
-                std::bitset<64> first_share_64(first_share);
+                std::bitset<64> first_share_64(xored_share);
                 std::bitset<64> share_64(shadows[i]);
-                first_share = (first_share_64^=share_64).to_string();
+                xored_share = (first_share_64^=share_64).to_string();
             }
                 break;
             case 128: {
-                std::bitset<128> first_share_128(first_share);
+                std::bitset<128> first_share_128(xored_share);
                 std::bitset<128> share_128(shadows[i]);
-                first_share = (first_share_128^=share_128).to_string();
+                xored_share = (first_share_128^=share_128).to_string();
             }
                 break;
             case 256: {
-                std::bitset<256> first_share_256(first_share);
+                std::bitset<256> first_share_256(xored_share);
                 std::bitset<256> _share_256(shadows[i]);
-                first_share = (first_share_256^=_share_256).to_string();
+                xored_share = (first_share_256^=_share_256).to_string();
             }
                 break;
             default: {
-                std::bitset<64> first_share_64(first_share);
+                std::bitset<64> first_share_64(xored_share);
                 std::bitset<64> _share_64(shadows[i]);
-                first_share = (first_share_64^=_share_64).to_string();
+                xored_share = (first_share_64^=_share_64).to_string();
             }
                 break;
         }
@@ -174,7 +171,7 @@ int main(int argc, char *argv[])
     }
 
     std::cout << "Retrived Secret" << "\n";
-    std::cout << first_share << "\n";
+    std::cout << xored_share << "\n";
 
     std::cout << "Original Secret" << "\n";
     std::cout << orig_secret << "\n";
